@@ -1,0 +1,46 @@
+package ejercicio1;
+
+import java.util.Iterator;
+
+public class ArrayReales implements Estadisticas{
+
+	private double numeros[];
+	private int tam; //tamaño máximo
+	private int num; //número de datos actualmente
+	
+	public ArrayReales(int tam) {
+		numeros=new double[tam];
+		this.tam = tam;
+	}
+	
+	public boolean add(double n) {
+		if (num>=tam) {
+			return false;
+		}
+		numeros[num]=n;
+		num++;
+		return true;
+	}
+	
+	@Override
+	public double minimo() {
+		for (int i = 0; i < tam; i++) {
+			
+		}
+	}
+
+	@Override
+	public double maximo() {
+		
+		return 0;
+	}
+
+	@Override
+	public double sumatorio() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+	
+}

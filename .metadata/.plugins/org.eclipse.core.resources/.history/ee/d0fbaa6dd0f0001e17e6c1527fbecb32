@@ -1,0 +1,8 @@
+package Ejercicio1;
+
+public interface estadisticas {
+
+	double minimo();
+	double 
+	
+}

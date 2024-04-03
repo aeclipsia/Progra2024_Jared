@@ -1,0 +1,14 @@
+package ejercicio2;
+
+import java.time.*;
+
+public class Carnet {
+
+	private LocalDate diaCad;
+
+	public Carnet(LocalDate diaCad) {
+		super();
+		this.diaCad = diaCad;
+	}
+	
+}

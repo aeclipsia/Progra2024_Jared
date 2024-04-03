@@ -1,0 +1,29 @@
+package ejercicio2;
+
+import java.time.*;
+
+public class Medicamento implements Caducable{
+
+	private LocalDate diaCad;
+
+	public Medicamento(LocalDate diaCad) {
+		this.diaCad = diaCad;
+	}
+
+	@Override
+	public boolean isCaducado() {
+		if (diaCad.isBefore(LocalDate.now())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int diasParaCaducado() {
+		if (diaCad.isAfter(LocalDate.now())) {
+			
+		}
+		return 0;
+	}
+	
+}

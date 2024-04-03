@@ -1,0 +1,13 @@
+package ejercicio2;
+
+import java.time.*;
+
+public class Carnet implements Caducable{
+
+	private LocalDate diaCad;
+
+	public Carnet(LocalDate diaCad) {
+		this.diaCad = diaCad;
+	}
+	
+}

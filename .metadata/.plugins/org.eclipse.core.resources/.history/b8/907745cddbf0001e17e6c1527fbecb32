@@ -1,0 +1,24 @@
+package ejercicio2;
+
+import java.time.LocalDate;
+import java.util.*;
+
+public class Main {
+
+	static Scanner sc=new Scanner(System.in);
+	static ArrayList<Caducable> a=new ArrayList<Caducable>();
+	
+	public static void main(String[] args) {
+
+		a.add(new Carnet(LocalDate.of(2025, 10, 13)));
+		a.add(new Medicamento(LocalDate.of(2024, 04, 01)));
+		a.add(new Carnet(LocalDate.of(2024, 03, 31)));
+		a.add(new Medicamento(LocalDate.of(2025, 04, 01)));
+		
+		for (Caducable i : a) {
+			
+		}
+		
+	}
+
+}

@@ -1,0 +1,9 @@
+package ejercicio2;
+
+import java.time.*;
+
+public class Medicamento {
+
+	private LocalDate diaCad;
+	
+}

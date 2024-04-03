@@ -1,0 +1,25 @@
+package ejercicio2;
+
+import java.time.*;
+
+public class Carnet implements Caducable{
+
+	private LocalDate diaCad;
+
+	public Carnet(LocalDate diaCad) {
+		this.diaCad = diaCad;
+	}
+
+	@Override
+	public boolean isCaducado() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int diasParaCaducado() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+}

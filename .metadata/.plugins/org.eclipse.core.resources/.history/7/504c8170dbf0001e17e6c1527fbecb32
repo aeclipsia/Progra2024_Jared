@@ -1,0 +1,17 @@
+package ejercicio2;
+
+import java.time.LocalDate;
+import java.util.*;
+
+public class Main {
+
+	static Scanner sc=new Scanner(System.in);
+	static ArrayList a=new ArrayList();
+	
+	public static void main(String[] args) {
+
+		a.add(new Carnet(LocalDate.of(2025, 10, 13)));
+		
+	}
+
+}
