@@ -1,39 +1,41 @@
 package ejInterfaceRunnable;
 
+import java.util.*;
+
 public class Main {
 
+	static Scanner sc=new Scanner(System.in);
+	static ArrayList<Tarea1> tareas=new ArrayList<Tarea1>();
+	static ArrayList<Thread> hilos=new ArrayList<Thread>();
+	static int op;
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		  // Creamos una instancia de la clase que implementa Runnable
-        Tarea1 tarea = new Tarea1();
-        Tarea2 tarea2 = new Tarea2();
+		System.out.println("Cuantas tareas?");
+       op=sc.nextInt();
        
+       for (int i = 0; i < op; i++) {
+		tareas.add(new Tarea1(i));
+	}
 
         // Creamos un hilo y le pasamos la instancia de la tarea
-        Thread hilo = new Thread(tarea);
-        Thread hilo2 = new Thread(tarea2);
-      
+       for (int i = 0; i < op; i++) {
+		hilos.add(new Thread(tareas.get(i)));
+	}   
 
         // Iniciamos el hilo
-        hilo.start();
-        hilo2.start();
-      
-        
-        for (int i = 0; i < 100; i++) {
-            System.out.println("Padre... " + i);
-            try {
-                Thread.sleep(80); // Espera de 1 segundo
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+       for (int i = 0; i < op; i++) {
+		hilos.get(i).start();
+	} 
         
         // El programa continúa ejecutándose mientras el hilo está en marcha
         // Hacemos una pausa en el hilo principal para esperar la finalización del hilo secundario
         try {
-            hilo.join(); // Espera hasta que el hilo termine
-            hilo2.join();
-          
+            // Espera hasta que el hilo termine
+        	for (int i = 0; i < op; i++) {
+        		hilos.get(i).join();
+        	} 
         } catch (InterruptedException e) {
             e.printStackTrace();
             

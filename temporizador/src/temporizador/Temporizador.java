@@ -11,7 +11,7 @@ public class Temporizador {
 
         // Espera un tiempo para darle oportunidad al programa de ejecutar la tarea
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
