@@ -32,7 +32,6 @@ public class Serie implements Prestable{
 	@Override
 	public void prestar() {
 		this.prestado=true;
-		
 	}
 	
 	@Override

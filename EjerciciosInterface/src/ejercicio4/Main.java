@@ -37,8 +37,9 @@ public class Main {
 				for (Prestable i : lista) {
 					if (opS.equalsIgnoreCase(i.getTitle()) && i.isEntregado()==false) {
 						i.prestar();
-						continue;
-						//esto es un comentario para probar el branch de GIT
+					}
+					else if (opS.equalsIgnoreCase(i.getTitle()) && i.isEntregado()==true) {
+						System.out.println("El artículo no está disponible");
 					}
 				}
 				break;
@@ -53,7 +54,9 @@ public class Main {
 				for (Prestable i : lista) {
 					if (opS.equalsIgnoreCase(i.getTitle())  && i.isEntregado()==true) {
 						i.devolver();
-						continue;
+					}
+					else if (opS.equalsIgnoreCase(i.getTitle()) && i.isEntregado()==false) {
+						System.out.println("El artículo no está prestado");
 					}
 				}
 				break;
