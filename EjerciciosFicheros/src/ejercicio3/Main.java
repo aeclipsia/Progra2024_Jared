@@ -14,6 +14,10 @@ public class Main {
 		System.out.println("Anota un directorio: ");
 		String dir=sc.nextLine();
 		
+		if (!Files.exists(Paths.get(dir))) {
+			System.out.println("No existe el directorio");
+			System.exit(0);
+		}
 		if (Files.isDirectory(Paths.get(dir))) {
 			System.out.println("Se ha encontrado "+dir);
 			try {
