@@ -6,6 +6,9 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/home/inf1/daw2025/EjemploFicheros2"/>
+			<item value="/home/inf1/daw2025/EjemplosFicheros1"/>
+			<item value="/home/inf1/daw2025/ejInterfaceRunnableIni"/>
 			<item value="/home/inf1/daw2025"/>
 		</list>
 		<section name="SmartImportWizard.dialogBounds">
