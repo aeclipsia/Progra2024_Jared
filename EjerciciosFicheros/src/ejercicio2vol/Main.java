@@ -25,19 +25,20 @@ public class Main {
 				DirectoryStream<Path> stream=Files.newDirectoryStream(Paths.get(dir));
 				for (Path path : stream) {
 					if (Files.isRegularFile(path)) {
-						Path fileIn = path;
-						Path fileOut = Paths.get(path.getFileName().toString().toUpperCase());
-						Charset charset = Charset.forName("UTF-8");
-						BufferedReader reader = null;
+						Charset charset=Charset.forName("UTF-8");
+						BufferedReader reader=null;
 						BufferedWriter writer = null;
+						Path fileIn = path;
+						Path fileOut = Paths.get(dir+"/"+Character.toUpperCase(path.getFileName().toString().charAt(0))+path.getFileName().toString().substring(1));
 						try {
 							reader = Files.newBufferedReader(fileIn, charset);
 							writer = Files.newBufferedWriter(fileOut, charset);
 							String line = null;
 							while ((line = reader.readLine()) != null) {
-								writer.write(line.toUpperCase());
+								writer.write(line);
 								writer.newLine();
 							}
+							Files.delete(path);
 						} catch (IOException x) {
 							System.err.format("IOException: %s%n", x);
 						} finally {
@@ -51,6 +52,28 @@ public class Main {
 			} catch (IOException e) {
 				System.err.println("Error");
 			}
+			
+			/*
+			try {
+				DirectoryStream<Path> stream=Files.newDirectoryStream(Paths.get(dir));
+				for (Path path : stream) {
+					if (Files.isRegularFile(path)) {
+						try {
+						  Files.delete(path);
+						} catch (IOException x) {
+							System.err.format("IOException: %s%n", x);
+						} finally {
+
+							if (reader != null) {
+								reader.close();
+							}
+						}
+					}
+				}
+			} catch (IOException e) {
+				System.err.println("Error");
+			}
+			*/
 		}
 	}
 

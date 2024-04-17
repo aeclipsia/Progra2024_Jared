@@ -1,4 +1,4 @@
-tienes que mirar si existe la palabra banana
-y se copia quitando la banana para
-que no salga la banana porque es la palabra que quiero quitar,
-o sea la banana
+TIENES QUE MIRAR SI EXISTE LA PALABRA BANANA
+Y SE COPIA QUITANDO LA BANANA PARA
+QUE NO SALGA LA BANANA PORQUE ES LA PALABRA QUE QUIERO QUITAR,
+O SEA LA BANANA

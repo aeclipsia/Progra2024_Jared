@@ -1,6 +1,0 @@
-Marcos,10
-Pedro,3
-Samuel,8
-Enzo,7
-Alejandro,5
-Alberto,6

@@ -15,10 +15,16 @@ public class Main {
 		Path fileIn = Paths.get("fichero/entrada.txt");
 		Path fileOut = Paths.get("fichero/f1.txt");
 		Path fileOut2 = Paths.get("fichero/f2.txt");
+		Path fileOut3 = Paths.get("fichero/f3.txt");
 		Charset charset = Charset.forName("UTF-8");
 		BufferedReader reader = null;
+		BufferedReader reader1 = null;
+		BufferedReader reader2 = null;
 		BufferedWriter writer = null;
 		BufferedWriter writer2 = null;
+		BufferedWriter writer3 = null;
+		int count1=0;
+		int count2=0;
 		
 		boolean cambio=true;
 		
@@ -49,6 +55,40 @@ public class Main {
 				writer2.close();
 			}
 		}
+		
+		try {
+			// Creamos un BuffereReader de java.io
+			reader = Files.newBufferedReader(fileIn, charset);
+			reader1 = Files.newBufferedReader(fileOut, charset);
+			reader2 = Files.newBufferedReader(fileOut2, charset);
+			writer3 = Files.newBufferedWriter(fileOut3, charset);
+			String linebase = reader.readLine();
+			String line = null;
+			String line2 = null;
+			for (int i = 0; i < linebase.length(); i++) {
+				if (i%2==0) {
+					while ((line=reader1.readLine())!=null) {
+						writer3.write(line.charAt(count1));
+						count1++;
+					}
+				}
+				else {
+					while ((line2=reader2.readLine())!=null) {
+						writer3.write(line2.charAt(count2));
+						count2++;
+					}
+				}
+			}
+		} catch (IOException x) {
+			System.err.format("IOException: %s%n", x);
+		} finally {
+			if (reader1 != null && reader2 != null) {
+				reader1.close();
+				reader2.close();
+				writer3.close();
+			}
+		}
+		
 	}
 
 }

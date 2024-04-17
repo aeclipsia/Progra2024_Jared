@@ -1,8 +1,8 @@
-Manzana podrida
-Manzana roja
-Platano
-Coco
-Melocotón
-Portatil
-Móvil
-Manzana verde
+MANZANA PODRIDA
+MANZANA ROJA
+PLATANO
+COCO
+MELOCOTÓN
+PORTATIL
+MÓVIL
+MANZANA VERDE

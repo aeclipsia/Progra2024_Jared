@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ej4V.xsl"?>
+<usuarios>
+<usuario>
+<nombre>marcos</nombre>
+<password>479167</password>
+<conexion>1576451</conexion>
+</usuario>
+<usuario>
+<nombre>Jared</nombre>
+<password>4178461</password>
+<conexion>415415</conexion>
+</usuario>
+</usuarios>
