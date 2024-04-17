@@ -4,24 +4,34 @@
   <html>
   <head>
       <style>
-			body{
-				background-color: #cd546e;
-			}
-			fila1{
-				background-color: #333333;
-				color: #ffffff;
-			}
-			table *{
-				border: solid 1px #de548f;
-			}
+	  body {
+		font-family: Calibri;
+		font-size:14px;
+        text-align:center;
+        width: 200px;
+        background-color: #a795ed;
+	}
+	  .fila1 {
+		background-color:#8264f5;
+		text-align:center;
+		height:40px;
+        width: 100%;
+      }
+      table *{
+        margin: 1px;
+        border: solid #484163 1px;
+    }
       </style>
   </head>
   <body>
+    <p>Usuarios del ordenador</p>
     <table>
       <tr class="fila1">
         <th>Usuarios</th>
+        <th>Contraseña</th>
+        <th>Conexión</th>
       </tr>
-      <xsl:for-each select="usuarios/usuario">
+      <xsl:for-each select="/usuarios/usuario">
       <tr>
         <td><xsl:value-of select="nombre"/></td>
         <td><xsl:value-of select="password"/></td>
