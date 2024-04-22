@@ -2,13 +2,18 @@
 <?xml-stylesheet type="text/xsl" href="ej4V.xsl"?>
 <usuarios>
 <usuario>
-<nombre>marcos</nombre>
-<password>479167</password>
-<conexion>1576451</conexion>
+<nombre>Jared</nombre>
+<password>password</password>
+<conexion>111</conexion>
 </usuario>
 <usuario>
-<nombre>Jared</nombre>
-<password>4178461</password>
-<conexion>415415</conexion>
+<nombre>Enzo</nombre>
+<password>goku</password>
+<conexion>14151</conexion>
+</usuario>
+<usuario>
+<nombre>Marcos</nombre>
+<password>pinilla777</password>
+<conexion>311</conexion>
 </usuario>
 </usuarios>
