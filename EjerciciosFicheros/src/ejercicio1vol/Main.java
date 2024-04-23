@@ -18,16 +18,16 @@ public class Main {
 		String dir2=sc.nextLine();
 		
 		if (!Files.exists(Paths.get(dir))) {
-			System.out.println("No existe el directorio "+dir);
+			System.err.println("No existe el directorio "+dir);
 			System.exit(0);
 		}
 		
 		if (!Files.exists(Paths.get(dir2))) {
-			System.out.println("No existe el directorio "+dir2);
+			System.err.println("No existe el directorio "+dir2);
 			System.exit(0);
 		}
 		
-		if (Files.isDirectory(Paths.get(dir))) {
+		if (Files.isDirectory(Paths.get(dir))&&Files.isDirectory(Paths.get(dir2))) {
 			try {
 				DirectoryStream<Path> stream=Files.newDirectoryStream(Paths.get(dir));
 				for (Path path : stream) {
@@ -67,12 +67,19 @@ public class Main {
 							}
 						}
 					}
+					stream2.close();
 				}
+				stream.close();
 			} catch (IOException e) {
 				System.err.println("Error");
 			}
 		}
-
+		else {
+			System.err.println("Uno de los intoducidos no es un directorio");
+			System.exit(0);
+		}
+		
+		System.err.println("Programa terminada");
 	}
 
 }
