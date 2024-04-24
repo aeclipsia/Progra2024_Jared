@@ -22,7 +22,7 @@ public class Main {
 		}
 		do {
 			try {
-				p=borrarDentro(p);
+				borrarDentro(p);
 			} catch (DirectoryNotEmptyException e) {
 				return;
 			} catch (IOException e) {
@@ -31,14 +31,17 @@ public class Main {
 		} while (Files.exists(Paths.get(dir)));
 	}
 
-	private static Path borrarDentro(Path p) throws IOException, DirectoryNotEmptyException {
+	private static void borrarDentro(Path p) throws IOException, DirectoryNotEmptyException {
 		DirectoryStream<Path> stream=Files.newDirectoryStream(p);
 		for (Path path : stream) {
 			if (Files.isDirectory(path)) {
-				return path;
+				borrarDentro(path);
+			}
+			else{
+				Files.delete(path);
 			}
 		}
-		return p;
+		Files.delete(p);
 	}
 
 }
