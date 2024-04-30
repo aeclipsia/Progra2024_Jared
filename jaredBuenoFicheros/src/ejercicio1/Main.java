@@ -86,6 +86,7 @@ public class Main {
 		} finally {
 			if (readerAuto != null) {
 				readerAuto.close();
+				readerPropietario.close();
 			}
 		}
 		
