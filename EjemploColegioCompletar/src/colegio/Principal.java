@@ -9,7 +9,6 @@ import modelos.Alumno;
 import modelos.Curso;
 
 public class Principal {
-
 	/**
 	 * @param args
 	 */
@@ -18,29 +17,33 @@ public class Principal {
 		
 		Scanner sLeer=new Scanner(System.in);
 		int opc=0;
+		int filas;
+		Alumno alum;
+		ArrayList<Alumno> alumno=new ArrayList<Alumno>();
 		
 		
 		BD_Colegio bd=new BD_Colegio("mysql-properties.xml");
 		
 		
-		do	
-		{
-			System.out.println("\n\nGESTI�N COLEGIO");
+		do	{
+			System.out.println("\n\nGESTIÓN COLEGIO");
 			System.out.println("***************");
 			System.out.println("1.Nuevo Alumno\n"
-					+ "2.Nuevo Curso\n3.Borrar Alumno\n4.Listado alumnos por curso\n"
+					+ "2.Nuevo Curso\n3.Borrar Alumno\n"
+					+ "4.Listado alumnos de un curso\n"
 					+ "5.Listado de cursos\n"
 					+ "6.Consultar alumno\n"
 					+ "7.Consultar tutor de un curso\n"
-					+ "8.Listado alumnos por tutor\n"
-					+ "9.Listado alumnos por curso");
-			System.out.print("\tTeclea opci�n: ");
+					+ "8.Listado de todos los alumnos por tutor\n"
+					+ "9.Listado de todos los alumnos agrupados por curso\n"
+					+ "10. Salir");
+			System.out.print("\tTeclea opción: ");
 			try{
 			opc=sLeer.nextInt();
 			}
 			
 			catch(InputMismatchException e ){
-				System.out.println("Debes introducir n�mero 1-5");
+				System.out.println("Debes introducir número 1-5");
 				opc=0;
 			}
 			
@@ -54,7 +57,7 @@ public class Principal {
 				String telefono=sLeer.nextLine();
 				System.out.print("Introduce DNI\t");
 				String dni=sLeer.nextLine();
-				System.out.print("Introduce n�mero de matr�cula\t");
+				System.out.print("Introduce número de matrícula\t");
 				int matricula=sLeer.nextInt();	
 				Vector<String> cursos;
 				try {
@@ -73,15 +76,14 @@ public class Principal {
 				System.out.print("Teclea el curso\t");
 				String curso=sLeer.next();
 				Alumno al=new Alumno(dni,nombre,curso,matricula,telefono);			
-				int filas;
 				try {
 					filas = bd.añadir_Alumno(al);
 					switch (filas){
 					case 1:
-						System.out.println("\nAlumno a�adido");
+						System.out.println("\nAlumno añadido");
 						break;
 					case 0:
-						System.out.println("\nNo a�adido, contacte con sistemas");
+						System.out.println("\nNo añadido, contacte con sistemas");
 						break;
 					
 						
@@ -104,16 +106,14 @@ public class Principal {
 				
 				Curso curs=new Curso(desc,cur,aula);
 				
-				
-				int filas1;
 				try {
-					filas1 = bd.añadir_Curso(curs);
-					switch (filas1){
+					filas = bd.añadir_Curso(curs);
+					switch (filas){
 					case 1:
-						System.out.println("\nCurso a�adido");
+						System.out.println("\nCurso añadido");
 						break;
 					case 0:
-						System.out.println("\nNo a�adido, contacte con sistemas");
+						System.out.println("\nNo añadido, contacte con sistemas");
 						break;
 					
 						
@@ -143,13 +143,11 @@ public class Principal {
 					System.out.println("Contacte con sistemas:"+e.getMessage());
 				}
 				break;
-			
+				
 			case 4:	
 				cursos=null;
 				try {
-					
 					cursos=bd.listadoCursos();
-					
 				} catch (ErrorBaseDatos e) {
 					System.out.println("Contacte con sistemas:"+e.getMessage());
 					break;
@@ -164,7 +162,7 @@ public class Principal {
 				
 				System.out.print("Teclea el curso del cual quieres ver los alumnos\t");
 				curso=sLeer.next();
-				Vector<Alumno> listado=null;
+				ArrayList<Alumno> listado=null;
 				try {
 					listado = bd.listadoAlumnosCurso(curso);
 				} catch (ErrorBaseDatos e) {
@@ -177,6 +175,33 @@ public class Principal {
 					System.out.println(listado.get(i).toString());
 				break;
 				
+			case 5:
+				try {	
+					cursos=bd.listadoCursos();
+				} catch (ErrorBaseDatos e) {
+					System.out.println("Contacte con sistemas:"+e.getMessage());
+					break;
+				}
+				if (cursos==null){
+						System.out.println("No hay cursos disponibles");
+						break;
+				}
+				System.out.println("Cursos:");
+				for (int i=0;i<cursos.size();i++)
+					System.out.println("\t>>"+cursos.get(i).toString());
+				break;
+				
+			case 6:
+				System.out.println("Introduce matricula");
+				matricula = sLeer.nextInt();
+				try {
+					alum = bd.consultarAlumno(matricula);
+					System.out.println(alum);
+				} catch (ErrorBaseDatos e) {
+					System.out.println(e.getMessage());
+				}
+				break;
+				
 			case 9:
 				try {
 					bd.listadoAlumnosPorCurso();
@@ -186,13 +211,6 @@ public class Principal {
 				}
 			
 			}
-		}
-		while (opc!=10);
-			
-	
-		}
-	
-	
-	
-
+		} while (opc!=10);
+	}
 }

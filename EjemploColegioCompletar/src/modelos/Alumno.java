@@ -18,10 +18,10 @@ public class Alumno extends Persona {
 	}
 
 	public Alumno(String dni, String nombre, String curso, int matricula,
-			String telenono) {
+			String telefono) {
 		super(dni, nombre, curso);
 		this.matricula = matricula;
-		this.telefono = telenono;
+		this.telefono = telefono;
 		this.fechaMatricula=LocalDate.now();
 	}
 

@@ -50,6 +50,22 @@ public class BD_Colegio extends BD_Conector{
 		}
 	}
 	
+	public Alumno consultarAlumno(int mat) throws ErrorBaseDatos {
+		Alumno alum;
+		String cadena = "SELECT * FROM alumnos WHERE matricula='"+mat+"'";
+		try {
+			this.abrir();
+			s = c.createStatement();
+			reg = s.executeQuery(cadena);
+			alum = new Alumno(reg.getString("dni"), reg.getString("nombre"), reg.getString("curso"), reg.getInt("matricula"), reg.getString("telefono"));
+			s.close();
+			this.cerrar();
+			return alum;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("No se ha encontrado el alumno");
+		}
+	}
+	
 	public  int añadir_Curso(Curso cur) throws ErrorBaseDatos{	
 		String cadenaSQL="INSERT INTO cursos VALUES('" + cur.getCurso() + "','" +
 		cur.getDescripcion()+"','"+ cur.getAula() +"')"; 	
@@ -67,9 +83,9 @@ public class BD_Colegio extends BD_Conector{
 		}
 	}
 	
-	public  Vector<Alumno> listadoAlumnosCurso(String curso) throws ErrorBaseDatos{
+	public  ArrayList<Alumno> listadoAlumnosCurso(String curso) throws ErrorBaseDatos{
 		String cadenaSQL="SELECT * from alumnos WHERE curso='"+curso+"'";
-		Vector<Alumno> listaCursos=new Vector<Alumno>();
+		ArrayList<Alumno> alumno=new ArrayList<Alumno>();
 		try{
 			this.abrir();
 			s=c.createStatement();
@@ -78,12 +94,12 @@ public class BD_Colegio extends BD_Conector{
 				// La fecha que se extrae de la bbdd es sql.Date, hay que transformarla a LocalDate
 				java.sql.Date f=reg.getDate("fechaMatricula");
 				LocalDate fBuena=f.toLocalDate();
-				listaCursos.add(new Alumno(reg.getString("dni"),reg.getString("nombre"),reg.getString("curso"),reg.getInt("matricula"),reg.getString("telefono"),fBuena));
+				alumno.add(new Alumno(reg.getString("dni"),reg.getString("nombre"),reg.getString("curso"),reg.getInt("matricula"),reg.getString("telefono"),fBuena));
 				
 			}
 			s.close();
 			this.cerrar();
-			return listaCursos;
+			return alumno;
 		}
 		catch ( SQLException e){		
 			throw new ErrorBaseDatos("Listando alumnos curso");	
