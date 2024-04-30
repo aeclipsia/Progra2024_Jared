@@ -104,6 +104,7 @@ public class Principal {
 				System.out.print("Introduce aula\t");
 				String aula=sLeer.nextLine();
 				
+				
 				Curso curs=new Curso(desc,cur,aula);
 				
 				try {
