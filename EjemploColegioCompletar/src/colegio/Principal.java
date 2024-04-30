@@ -199,6 +199,7 @@ public class Principal {
 					System.out.println(alum);
 				} catch (ErrorBaseDatos e) {
 					System.out.println(e.getMessage());
+					
 				}
 				break;
 				
