@@ -179,7 +179,7 @@ public class BD_Tarjetas extends BD_Conector{
 						}
 					}
 					else {
-						res=s2.executeUpdate("UPDATE cuentas set saldo='"+(saldo-importe)+"' WHERE número='"+num+"'");
+						res=s2.executeUpdate("INSERT into movimientos VALUES (0,'"+numT+"','0','"+importe+"','"+LocalDate.now()+"')");
 					}
 				}
 				s2.close();
@@ -239,20 +239,6 @@ public class BD_Tarjetas extends BD_Conector{
 		}
 		catch ( SQLException e){			
 			throw new ErrorBaseDatos(" No se puede realizar el alta");
-		}
-	}
-	
-	public void addMovimiento() throws ErrorBaseDatos {
-		String cadenaSQL="";
-		try{
-			this.abrir();
-			s=c.createStatement();
-			s.executeUpdate(cadenaSQL);
-			s.close();
-			this.cerrar();
-		}
-		catch ( SQLException e){			
-			throw new ErrorBaseDatos(" No se puede realizar el alta en movimientos");
 		}
 	}
 	

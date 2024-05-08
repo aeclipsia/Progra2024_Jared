@@ -82,8 +82,11 @@ public class Principal {
 			sc.nextLine();
 			System.out.print("Anota el nombre del titular:\t");
 			titular=sc.nextLine();
-			System.out.print("Anota la clave:\t");
-			clave=sc.nextLine();
+			
+			do {
+				System.out.print("Anota la clave:\t");
+				clave=sc.nextLine();
+			} while (clave.length()!=4);
 			
 			try {
 				if (bd.buscarCuentas2(numCuenta)) {
@@ -142,7 +145,6 @@ public class Principal {
 								
 								if (bd.belowLimit(numTarjeta,imp)) {
 									bd.sacar(numTarjeta, imp);
-									bd.addMovimiento();
 								}
 								else {
 									System.out.println("La tarjeta de crédito superaría el límite");
