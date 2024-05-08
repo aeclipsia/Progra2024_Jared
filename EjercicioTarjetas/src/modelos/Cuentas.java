@@ -23,7 +23,23 @@ public class Cuentas {
 		return "Cuentas [número=" + num + ", titular1=" + titu1 + ", titular2=" + titu2 + ", titular3=" + titu3 + ", saldo=" + saldo
 				+ ", fecha=" + fecha + "]";
 	}
-	
-	
+	public int getNum() {
+		return num;
+	}
+	public String getTitu1() {
+		return titu1;
+	}
+	public String getTitu2() {
+		return titu2;
+	}
+	public String getTitu3() {
+		return titu3;
+	}
+	public double getSaldo() {
+		return saldo;
+	}
+	public LocalDate getFecha() {
+		return fecha;
+	}
 
 }

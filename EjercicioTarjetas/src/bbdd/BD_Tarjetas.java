@@ -1,6 +1,5 @@
 package bbdd;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.time.*;
 
@@ -17,7 +16,7 @@ public class BD_Tarjetas extends BD_Conector{
 	}
 	
 	public ArrayList<Cuentas> buscarCuentas(String dni) throws ErrorBaseDatos{
-		String cadenaSQL="SELECT * from cuentas WHERE titular1='"+dni+"'";
+		String cadenaSQL="SELECT * from cuentas WHERE titular1='"+dni+"' or titular2='"+dni+"' or titular3='"+dni+"'";
 		ArrayList<Cuentas> listaCuentas=new ArrayList<>();
 		try {
 			this.abrir();
@@ -34,8 +33,227 @@ public class BD_Tarjetas extends BD_Conector{
 		}
 	}
 	
-	public boolean altaCredito() {
-		return false;
+	public boolean buscarCuentas2(int cuenta) throws ErrorBaseDatos{
+		String cadenaSQL="SELECT * from cuentas WHERE número = '"+cuenta+"'";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			if (reg.next()) {
+				return true;
+			}
+			s.close();
+			this.cerrar();
+			return false;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public boolean buscarTarjeta(int numT) throws ErrorBaseDatos{
+		String cadenaSQL="SELECT * from tarjetas WHERE numero = '"+numT+"'";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			if (reg.next()) {
+				return true;
+			}
+			s.close();
+			this.cerrar();
+			return false;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public int buscarTarjetasMax() throws ErrorBaseDatos{
+		String cadenaSQL="SELECT numero from tarjetas";
+		int max=Integer.MIN_VALUE;
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			while (reg.next()) {
+				if (reg.getInt(1)>max) {
+					max=reg.getInt(1);
+				}
+			}
+			s.close();
+			this.cerrar();
+			return max;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public boolean authenticar(int numT,String clave) throws ErrorBaseDatos{
+		String cadenaSQL="SELECT clave from tarjetas WHERE numero = '"+numT+"'";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			if (reg.next() && reg.getString(1).equals(clave)) {
+				return true;
+			}
+			s.close();
+			this.cerrar();
+			return false;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public boolean isDebit(int numT) throws ErrorBaseDatos {
+		String cadenaSQL="SELECT tipo from tarjetas WHERE numero = '"+numT+"'";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			if (reg.next() && reg.getString(1).equals("D")) {
+				return true;
+			}
+			s.close();
+			this.cerrar();
+			return false;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public boolean belowLimit(int numT, double importe) throws ErrorBaseDatos {
+		String cadenaSQL="SELECT limite from tarjetas WHERE numero = '"+numT+"'";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			if (reg.next() && (reg.getDouble(1))-importe>=0) {
+				return true;
+			}
+			s.close();
+			this.cerrar();
+			return false;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public boolean isBlocked(int numT) throws ErrorBaseDatos {
+		String cadenaSQL="SELECT bloqueada from tarjetas WHERE numero = '"+numT+"'";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			if (reg.next() && reg.getInt(1)==0) {
+				return true;
+			}
+			s.close();
+			this.cerrar();
+			return false;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public int sacar(int numT, double importe) throws ErrorBaseDatos {
+		String cadenaSQL="SELECT cuenta,tipo from tarjetas WHERE numero = '"+numT+"'";
+		int res=0; //contador de filas modificadas
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			if (reg.next()) {
+				int num=reg.getInt(1);
+				String tipo=reg.getString(2);
+				
+				Statement s2=c.createStatement();
+				ResultSet reg2=s2.executeQuery("SELECT saldo from cuentas WHERE número='"+num+"'");
+				if (reg2.next()) {
+					double saldo=reg2.getDouble(1);
+					if (tipo.equals("D")) {
+						if (saldo-importe<0) {
+							throw new ErrorBaseDatos("Saldo negativo");
+						}
+						else {
+							res=s2.executeUpdate("UPDATE cuentas set saldo='"+(saldo-importe)+"' WHERE número='"+num+"'");
+						}
+					}
+					else {
+						res=s2.executeUpdate("UPDATE cuentas set saldo='"+(saldo-importe)+"' WHERE número='"+num+"'");
+					}
+				}
+				s2.close();
+			}
+			s.close();
+			this.cerrar();
+			return res;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos(" Error");
+		}		
+	}
+	
+	public boolean checkNumTarjetaDuplicado(int numT) throws ErrorBaseDatos{
+		String cadenaSQL="SELECT numero from tarjetas";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			while (reg.next()) {
+				if (reg.getInt(1)==numT) {
+					return true;
+				}
+			}
+			s.close();
+			this.cerrar();
+			return false;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
+	public void altaCredito(Cuentas a, int numTarjeta, String titular, double limite, String clave) throws ErrorBaseDatos {
+		String cadenaSQL="INSERT INTO tarjetas VALUES('"+numTarjeta+"','"+a.getNum()+"','"+titular+"','"
+				+limite+"','C','"+LocalDate.now().plusYears(1)+"','"+clave+"','0')"; 
+		
+		try{
+			this.abrir();
+			s=c.createStatement();
+			s.executeUpdate(cadenaSQL);
+			s.close();
+			this.cerrar();
+		}
+		catch ( SQLException e){			
+			throw new ErrorBaseDatos(" No se puede realizar el alta");
+		}
+	}
+	
+	public void altaDebito(int numC, String titular, String clave) throws ErrorBaseDatos {
+		String cadenaSQL="INSERT INTO tarjetas VALUES('"+(buscarTarjetasMax()+1)+"','"+numC+
+				"','"+titular+"','0','D','"+LocalDate.now().plusMonths(6)+"','"+clave+"','0')";
+		try{
+			this.abrir();
+			s=c.createStatement();
+			s.executeUpdate(cadenaSQL);
+			s.close();
+			this.cerrar();
+		}
+		catch ( SQLException e){			
+			throw new ErrorBaseDatos(" No se puede realizar el alta");
+		}
+	}
+	
+	public void addMovimiento() throws ErrorBaseDatos {
+		String cadenaSQL="";
+		try{
+			this.abrir();
+			s=c.createStatement();
+			s.executeUpdate(cadenaSQL);
+			s.close();
+			this.cerrar();
+		}
+		catch ( SQLException e){			
+			throw new ErrorBaseDatos(" No se puede realizar el alta en movimientos");
+		}
 	}
 	
 }
