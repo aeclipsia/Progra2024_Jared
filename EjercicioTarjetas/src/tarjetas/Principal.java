@@ -118,7 +118,7 @@ public class Principal {
 						}
 					}
 					else {
-						System.out.println("Contraseña incorrecta");
+						System.out.println("Datos incorrectos");
 					}
 				}
 				else {
@@ -152,7 +152,7 @@ public class Principal {
 						}
 					}
 					else {
-						System.out.println("Contraseña incorrecta");
+						System.out.println("Datos incorrectos");
 					}
 				}
 				else {
@@ -162,12 +162,16 @@ public class Principal {
 				System.out.println("Contacte con sistemas"+e.getMessage());
 			}
 			break;
-			
+	 		
 		case 5:
 			System.out.println("Anota el número de la tarjeta");
 			numTarjeta=sc.nextInt();
 			
-			
+			try {
+				bd.cargarCredito(numTarjeta);
+			} catch (ErrorBaseDatos e) {
+				System.out.println(""+e.getMessage());
+			}
 			
 			break;
 

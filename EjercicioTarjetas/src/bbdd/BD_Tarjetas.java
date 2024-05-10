@@ -192,6 +192,34 @@ public class BD_Tarjetas extends BD_Conector{
 		}		
 	}
 	
+	public void cargarCredito(int numT) throws ErrorBaseDatos {
+		String cadenaSQL="SELECT * from movimientos WHERE tarjeta='"+numT+"'";
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			while (reg.next()) {
+				if (reg.getInt(3)==0) {
+					Statement s2=c.createStatement();
+					ResultSet reg2=s2.executeQuery("SELECT tarjetas.numero, cuentas.número, cuentas.saldo FROM cuentas INNER JOIN tarjetas ON tarjetas.cuenta=cuentas.número WHERE tarjetas.numero='"+numT+"'");
+					while (reg2.next()) {
+						//System.out.println(reg2.getInt(1)+","+reg2.getInt(2)+","+reg2.getDouble(3));
+						Statement s3=c.createStatement();
+						int resultadoFilas=s3.executeUpdate("UPDATE cuentas set saldo='"+(reg2.getDouble(3)-reg.getDouble(4))+"' WHERE número='"+reg2.getInt(2)+"'");
+						if (resultadoFilas<=0) {
+							throw new ErrorBaseDatos("No se ha actualizado ninguna fila");
+						}
+					}
+				}
+			}
+			s.executeUpdate("UPDATE movimientos set cargado='1' WHERE tarjeta='"+numT+"'");
+			s.close();
+			this.cerrar();
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
 	public boolean checkNumTarjetaDuplicado(int numT) throws ErrorBaseDatos{
 		String cadenaSQL="SELECT numero from tarjetas";
 		try {
