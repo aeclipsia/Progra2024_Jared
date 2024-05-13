@@ -270,4 +270,22 @@ public class BD_Tarjetas extends BD_Conector{
 		}
 	}
 	
+	public ArrayList<Tarjetas> infoTitular(String titular) throws ErrorBaseDatos{
+		String cadenaSQL="SELECT * from tarjetas WHERE titular= '"+titular+"' and caducidad < '"+LocalDate.now()+"'";
+		ArrayList<Tarjetas> listaTarjetas=new ArrayList<>();
+		try {
+			this.abrir();
+			s=c.createStatement();
+			reg=s.executeQuery(cadenaSQL);
+			while (reg.next()) {
+				listaTarjetas.add(new Tarjetas(reg.getInt(1),reg.getInt(2),reg.getString(3),reg.getDouble(4),reg.getString(5),reg.getDate(6).toLocalDate(),reg.getInt(8)));
+			}
+			s.close();
+			this.cerrar();
+			return listaTarjetas;
+		} catch (SQLException e) {
+			throw new ErrorBaseDatos("Error");
+		}
+	}
+	
 }

@@ -1,5 +1,10 @@
 package tarjetas;
 import java.util.*;
+import java.io.*;
+import java.nio.file.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.nio.charset.*;
 
 import bbdd.*;
 import modelos.*;
@@ -12,11 +17,14 @@ public class Principal {
 	static int op;
 	static Scanner sc=new Scanner(System.in);
 	static ArrayList<Cuentas> listaCuentas=new ArrayList<>();
+	static ArrayList<Tarjetas> listaTarjetas=new ArrayList<>();
+	static ArrayList<Movimientos> listaMovimientos=new ArrayList<>();
 	static int numTarjeta, numCuenta;
 	static String titular, clave;
 	static double limite, imp;
+	static DateTimeFormatter formato=DateTimeFormatter.ofPattern("yyyy-LL-dd");
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		BD_Tarjetas bd=new BD_Tarjetas("mysql-properties.xml");
 		
 		System.out.println("1-Alta crédito"
@@ -173,6 +181,59 @@ public class Principal {
 				System.out.println(""+e.getMessage());
 			}
 			
+			break;
+			
+		case 6:
+			sc.nextLine();
+			System.out.println("Anota el nombre del titular");
+			titular=sc.nextLine();
+			
+			try {
+				listaTarjetas = bd.infoTitular(titular);
+				
+				if (listaTarjetas.isEmpty()) {
+					System.out.println("No hay tarjetas del titular "+titular);
+					break;
+				}
+				
+				for (int i = 0; i < listaTarjetas.size(); i++) {
+					System.out.println(listaTarjetas.get(i).toString());
+				}
+			} catch (ErrorBaseDatos e) {
+				System.out.println(""+e.getMessage());
+			}
+			break;
+			
+		case 7:
+			Path fich=Paths.get("movimientos.txt");
+			BufferedReader reader=null;
+			Charset charset=Charset.forName("UTF-8");
+			try {
+				reader=Files.newBufferedReader(fich,charset);
+				String lineaFichero= null;
+				while ((lineaFichero=reader.readLine())!=null) {
+					String[] separado=lineaFichero.split(" ");
+					
+					int n=Integer.parseInt(separado[0]);
+					int t=Integer.parseInt(separado[1]);
+					int c=Integer.parseInt(separado[2]);
+					double l=Double.parseDouble(separado[3]);
+					LocalDate cad=LocalDate.parse(separado[3],formato);
+					
+					listaMovimientos.add(new Movimientos(n/*Numero*/,
+							t/*Tarjeta*/,
+							c/*Cargado*/,
+							l/*Limite*/,
+							cad/*Caducidad*/)
+							);
+				}
+			} catch (IOException e) {
+				System.err.println(e);
+			} finally {
+				if (reader!=null) {
+					reader.close();
+				}
+			}
 			break;
 
 		default:
