@@ -18,4 +18,73 @@ public class Movimientos {
 	}
 	
 	
+
+	public int getNumero() {
+		return numero;
+	}
+
+
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
+
+
+	public int getTarjeta() {
+		return tarjeta;
+	}
+
+
+
+	public void setTarjeta(int tarjeta) {
+		this.tarjeta = tarjeta;
+	}
+
+
+
+	public int getCargado() {
+		return cargado;
+	}
+
+
+
+	public void setCargado(int cargado) {
+		this.cargado = cargado;
+	}
+
+
+
+	public double getImporte() {
+		return importe;
+	}
+
+
+
+	public void setImporte(double importe) {
+		this.importe = importe;
+	}
+
+
+
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
+
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Movimientos [numero=" + numero + ", tarjeta=" + tarjeta + ", cargado=" + cargado + ", importe="
+				+ importe + ", fecha=" + fecha + "]";
+	}
+	
+	
+	
 }

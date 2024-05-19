@@ -10,10 +10,6 @@ import bbdd.*;
 import modelos.*;
 
 public class Principal {
-	/**
-	 * @param args
-	 */
-	
 	static int op;
 	static Scanner sc=new Scanner(System.in);
 	static ArrayList<Cuentas> listaCuentas=new ArrayList<>();
@@ -211,14 +207,14 @@ public class Principal {
 			try {
 				reader=Files.newBufferedReader(fich,charset);
 				String lineaFichero= null;
-				while ((lineaFichero=reader.readLine())!=null) {
+				while ((lineaFichero=reader.readLine())!=null && !(lineaFichero=reader.readLine()).equals("")) {
 					String[] separado=lineaFichero.split(" ");
 					
 					int n=Integer.parseInt(separado[0]);
 					int t=Integer.parseInt(separado[1]);
 					int c=Integer.parseInt(separado[2]);
 					double l=Double.parseDouble(separado[3]);
-					LocalDate cad=LocalDate.parse(separado[3],formato);
+					LocalDate cad=LocalDate.parse(separado[4],formato);
 					
 					listaMovimientos.add(new Movimientos(n/*Numero*/,
 							t/*Tarjeta*/,
@@ -226,6 +222,12 @@ public class Principal {
 							l/*Limite*/,
 							cad/*Caducidad*/)
 							);
+					
+					try {
+						bd.altaMovimientosFicheros(listaMovimientos);
+					} catch (ErrorBaseDatos e) {
+						System.out.println("Error");
+					}
 				}
 			} catch (IOException e) {
 				System.err.println(e);

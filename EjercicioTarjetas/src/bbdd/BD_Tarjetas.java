@@ -270,6 +270,28 @@ public class BD_Tarjetas extends BD_Conector{
 		}
 	}
 	
+	public void altaMovimientosFicheros(ArrayList<Movimientos> lista) throws ErrorBaseDatos {
+		String cadenaSQL="INSERT INTO tarjetas VALUES(?,?,?,?)";
+		try{
+			this.abrir();
+			PreparedStatement p=c.prepareStatement(cadenaSQL);
+
+			for (Movimientos m : lista) {
+				p.setInt(1, m.getTarjeta());
+				p.setInt(2, m.getCargado());
+				p.setDouble(3, m.getImporte());
+				p.setDate(4, java.sql.Date.valueOf(m.getFecha()));
+			}
+			p.executeUpdate();
+			
+			p.close();
+			this.cerrar();
+		}
+		catch ( SQLException e){			
+			throw new ErrorBaseDatos(" No se puede realizar el alta");
+		}
+	}
+	
 	public ArrayList<Tarjetas> infoTitular(String titular) throws ErrorBaseDatos{
 		String cadenaSQL="SELECT * from tarjetas WHERE titular= '"+titular+"' and caducidad < '"+LocalDate.now()+"'";
 		ArrayList<Tarjetas> listaTarjetas=new ArrayList<>();
